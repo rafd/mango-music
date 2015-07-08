@@ -19,17 +19,19 @@ def run(output, input_stream, db_file)
   output.puts "quit"
   output.puts ""
   output.puts "What do now?"
-  input = input_stream.gets.chomp
+  input = input_stream.gets.chomp.split(" ")
   database = Database.new(db_file)
 
-  while input != "exit"
-    case input.split(" ")[0]
+  while input[0] != "exit"
+    case input[0]
     when "add"
+      title = input[1]
+      artist = input[2]
       track_count = database.count
-      database.add([track_count, input.split(" ")[1], input.split(" ")[2], 0])
+      database.add([track_count, title, artist, 0])
       output.puts "saved!"
     when "listen"
-      title = input.split(" ")[1]
+      title = input[1]
       tracks = database.all
       track = tracks.select do |t|
          t[1] == title
@@ -47,12 +49,13 @@ def run(output, input_stream, db_file)
         output.puts track_to_s(t)
       end
     when "search"
+      query = input[1]
       tracks = []
       database.all.each do |track|
         track_hash = track_array_to_hash(track)
-        if /#{input.split(" ")[1]}/ =~ track_hash[:title]
+        if /#{query}/ =~ track_hash[:title]
           tracks << track
-        elsif /#{input.split(" ")[1]}/ =~ track_hash[:artist]
+        elsif /#{query}/ =~ track_hash[:artist]
           tracks << track
         end
       end
@@ -65,7 +68,7 @@ def run(output, input_stream, db_file)
 
     output.puts ""
     output.puts "What do now?"
-    input = input_stream.gets.chomp
+    input = input_stream.gets.chomp.split(" ")
   end
 
   output.puts ""
