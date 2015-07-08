@@ -37,5 +37,15 @@ describe "interface" do
 
     end
   end
+  describe "search" do
+    it "prints result of a search" do
+      output = double(:output).as_null_object
+      output.should_receive(:puts).with(/[0-9]+: eee by fff \([0-9]+ listens\)/)
+
+      input = StringIO.new("add eee fff\nsearch eee\nexit\n")
+
+      app = run(output,input)
+    end
+  end
 end
 
