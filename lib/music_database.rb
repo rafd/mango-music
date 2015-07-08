@@ -1,6 +1,6 @@
 require 'csv'
 
-def run(output, input_stream)
+def run(output, input_stream, db_file)
   output.puts "Welcome to Mango Music"
   output.puts "You can:"
   output.puts "add <track> <artist>"
@@ -15,14 +15,14 @@ def run(output, input_stream)
   while input != "exit"
     case input.split(" ")[0]
     when "add"
-      track_count = CSV.read("db.csv").length
-      CSV.open("db.csv","ab") do |csv|
+      track_count = CSV.read(db_file).length
+      CSV.open(db_file,"ab") do |csv|
         csv << [track_count, input.split(" ")[1], input.split(" ")[2], 0]
       end
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
-      tracks = CSV.read("db.csv")
+      tracks = CSV.read(db_file)
       track = tracks.select do |t|
          t[1] == title
       end
@@ -30,20 +30,20 @@ def run(output, input_stream)
       if track
         output.puts "You're listening to... #{track[1]} by #{track[2]}"
         tracks[track[0].to_i][3] = tracks[track[0].to_i][3].to_i + 1
-        CSV.open("db.csv", "wb") do |csv|
+        CSV.open(db_file, "wb") do |csv|
           tracks.each do |t|
             csv << t
           end
         end
       end
     when "list"
-      tracks = CSV.read("db.csv")
+      tracks = CSV.read(db_file)
       tracks.each do |t|
         output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
       end
     when "search"
       tracks = []
-      CSV.read("db.csv").each do |track|
+      CSV.read(db_file).each do |track|
         if /#{input.split(" ")[1]}/ =~ track[1]
           tracks << track
         elsif /#{input.split(" ")[1]}/ =~ track[2]

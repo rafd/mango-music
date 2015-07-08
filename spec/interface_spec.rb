@@ -2,6 +2,9 @@ require_relative "spec_helper"
 require_relative "../lib/music_database.rb"
 require 'stringio'
 
+TEST_DB = "test_db.csv"
+File.new(TEST_DB, "w")
+
 describe "interface" do
   describe "start" do
     it "prints a welcome message" do
@@ -10,7 +13,7 @@ describe "interface" do
 
       input = StringIO.new("exit\n")
 
-      app = run(output,input)
+      run(output,input,TEST_DB)
     end
   end
   describe "add and list" do
@@ -20,7 +23,7 @@ describe "interface" do
 
       input = StringIO.new("add aaa bbb\nlist\nexit\n")
 
-      app = run(output,input)
+      run(output,input,TEST_DB)
     end
   end
   describe "listen" do
@@ -30,7 +33,7 @@ describe "interface" do
 
       input = StringIO.new("add eee fff\nlisten eee\nexit\n")
 
-      app = run(output,input)
+      run(output,input,TEST_DB)
     end
 
     it "increments listen count when listed" do
@@ -44,7 +47,7 @@ describe "interface" do
 
       input = StringIO.new("add eee fff\nsearch eee\nexit\n")
 
-      app = run(output,input)
+      run(output,input,TEST_DB)
     end
   end
 end
