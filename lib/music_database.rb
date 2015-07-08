@@ -6,6 +6,7 @@ class Database
   end
 
   def all
+    CSV.read(@db_file)
   end
 
   def find
@@ -43,7 +44,7 @@ def run(output, input_stream, db_file)
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
-      tracks = CSV.read(db_file)
+      tracks = database.all
       track = tracks.select do |t|
          t[1] == title
       end
