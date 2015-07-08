@@ -16,7 +16,7 @@ def run(output, input_stream, db_file)
   output.puts "listen <id of track>"
   output.puts "list"
   output.puts "search <search term>"
-  output.puts "quit"
+  output.puts "exit"
   output.puts ""
   output.puts "What do now?"
   input = input_stream.gets.chomp.split(" ")
