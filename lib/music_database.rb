@@ -21,13 +21,19 @@ def run(output, input_stream)
       end
       output.puts "saved!"
     when "listen"
-      id = input.split(" ")[1].to_i
+      title = input.split(" ")[1]
       tracks = CSV.read("db.csv")
-      output.puts "You're listening to... #{tracks[id][1]} by #{tracks[id][2]}"
-      tracks[id][3] = tracks[id][3].to_i + 1
-      CSV.open("db.csv", "wb") do |csv|
-        tracks.each do |t|
-          csv << t
+      track = tracks.select do |t|
+         t[1] == title
+      end
+      track = track[0]
+      if track
+        output.puts "You're listening to... #{track[1]} by #{track[2]}"
+        tracks[track[0].to_i][3] = tracks[track[0].to_i][3].to_i + 1
+        CSV.open("db.csv", "wb") do |csv|
+          tracks.each do |t|
+            csv << t
+          end
         end
       end
     when "list"

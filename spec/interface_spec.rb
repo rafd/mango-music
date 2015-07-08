@@ -23,5 +23,19 @@ describe "interface" do
       app = run(output,input)
     end
   end
+  describe "listen" do
+    it "prints listen message" do
+      output = double(:output).as_null_object
+      output.should_receive(:puts).with(/You're listening to... eee by fff/)
+
+      input = StringIO.new("add eee fff\nlisten eee\nexit\n")
+
+      app = run(output,input)
+    end
+
+    it "increments listen count when listed" do
+
+    end
+  end
 end
 
