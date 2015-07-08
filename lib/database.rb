@@ -9,9 +9,6 @@ class Database
     CSV.read(@db_file)
   end
 
-  def find
-  end
-
   def add(arr)
     CSV.open(@db_file,"ab") do |csv|
       csv << arr
