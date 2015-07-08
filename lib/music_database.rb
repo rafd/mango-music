@@ -21,6 +21,14 @@ class Database
   def count
     CSV.read(@db_file).length
   end
+
+  def overwrite_all(tracks)
+    CSV.open(@db_file, "wb") do |csv|
+      tracks.each do |t|
+        csv << t
+      end
+    end
+  end
 end
 
 def run(output, input_stream, db_file)
@@ -52,11 +60,7 @@ def run(output, input_stream, db_file)
       if track
         output.puts "You're listening to... #{track[1]} by #{track[2]}"
         tracks[track[0].to_i][3] = tracks[track[0].to_i][3].to_i + 1
-        CSV.open(db_file, "wb") do |csv|
-          tracks.each do |t|
-            csv << t
-          end
-        end
+        database.overwrite_all(tracks)
       end
     when "list"
       tracks = CSV.read(db_file)
