@@ -1,5 +1,9 @@
 require_relative 'database'
 
+def track_array_to_hash(track)
+  {id: track[0].to_i, title: track[1], artist: track[2]}
+end
+
 def track_to_s(t)
  "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
 end
@@ -31,7 +35,7 @@ def run(output, input_stream, db_file)
       end
       track = track[0]
       if track
-        track = {id: track[0].to_i, title: track[1], artist: track[2]}
+        track = track_array_to_hash(track)
         output.puts "You're listening to... #{track[:title]} by #{track[:artist]}"
         tracks[track[:id]][3] = tracks[track[:id]][3].to_i + 1
         database.overwrite_all(tracks)
