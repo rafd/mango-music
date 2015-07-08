@@ -1,3 +1,3 @@
 require_relative 'lib/music_database.rb'
 
-run(STDIN,STDOUT, "db.csv")
+run(STDOUT,STDIN,"db.yaml")
