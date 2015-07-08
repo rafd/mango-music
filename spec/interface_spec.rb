@@ -13,18 +13,8 @@ describe "interface" do
       app = run(output,input)
     end
   end
-  describe "list" do
-    it "prints a list of tracks" do
-      output = double(:output).as_null_object
-      output.should_receive(:puts).with("0: foo by bar (0 listens)")
-
-      input = StringIO.new("list\nexit\n")
-
-      app = run(output,input)
-    end
-  end
-  describe "add" do
-    it "adds a track" do
+  describe "add and list" do
+    it "adds a track and lists it" do
       output = double(:output).as_null_object
       output.should_receive(:puts).with(/[0-9]+: aaa by bbb \(0 listens\)/)
 
