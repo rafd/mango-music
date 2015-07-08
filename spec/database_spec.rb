@@ -9,7 +9,7 @@ describe Database do
 
   describe "#all" do
     it "returns all records" do
-      record = ["foo","bar"]
+      record = {name: "foo", title: "bar"}
       @db.add(record)
       expect(@db.all).to eq([record])
     end
@@ -17,7 +17,7 @@ describe Database do
 
   describe "#drop" do
     it "drops all records" do
-      @db.add(["fff"])
+      @db.add({name: "fff"})
       @db.drop()
       expect(@db.all).to eq([])
     end
@@ -25,7 +25,7 @@ describe Database do
 
   describe "#add" do
     it "adds a single record" do
-      record = ["foo","bar"]
+      record = {a: "foo", b: "bar"}
       @db.add(record)
       expect(@db.all).to eq([record])
     end
@@ -33,15 +33,15 @@ describe Database do
 
   describe "#count" do
     it "return number of records" do
-      record = ["foo","bar"]
+      record = {a: "foo", b:"bar"}
       @db.add(record)
-      expect(@db.all.length).to eq(1)
+      expect(@db.count).to eq(1)
     end
   end
 
   describe "#overwrite_all" do
     it "overwrites entire database" do
-      records = [["foo","bar"], ["bar","baz"]]
+      records = [{a: "foo",b: "bar"}, {c: "bar",d: "baz"}]
       @db.overwrite_all(records)
       expect(@db.all).to eq(records)
     end

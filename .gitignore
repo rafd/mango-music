@@ -1,2 +1,2 @@
-db.csv
-test_db.csv
+*.csv
+*.yaml

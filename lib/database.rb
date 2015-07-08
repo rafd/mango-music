@@ -1,8 +1,12 @@
-require 'csv'
+require 'yaml'
 
 class Database
   def initialize(db_file)
     @db_file = db_file
+
+    unless File.file?(@db_file)
+      self.drop
+    end
   end
 
   def drop
@@ -10,24 +14,26 @@ class Database
   end
 
   def all
-    CSV.read(@db_file)
+    YAML.load_file(@db_file) || []
   end
 
-  def add(arr)
-    CSV.open(@db_file,"ab") do |csv|
-      csv << arr
+  def add(record)
+    records = YAML.load_file(@db_file) || []
+    records << record
+    File.open(@db_file,"w") do |file|
+      file.write records.to_yaml
     end
+    nil
   end
 
   def count
-    CSV.read(@db_file).length
+    self.all.length
   end
 
-  def overwrite_all(tracks)
-    CSV.open(@db_file, "wb") do |csv|
-      tracks.each do |t|
-        csv << t
-      end
+  def overwrite_all(records)
+    File.open(@db_file,"w") do |file|
+      file.write records.to_yaml
     end
+    nil
   end
 end
