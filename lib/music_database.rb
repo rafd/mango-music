@@ -49,9 +49,10 @@ def run(output, input_stream, db_file)
     when "search"
       tracks = []
       database.all.each do |track|
-        if /#{input.split(" ")[1]}/ =~ track[1]
+        track_hash = track_array_to_hash(track)
+        if /#{input.split(" ")[1]}/ =~ track_hash[:title]
           tracks << track
-        elsif /#{input.split(" ")[1]}/ =~ track[2]
+        elsif /#{input.split(" ")[1]}/ =~ track_hash[:artist]
           tracks << track
         end
       end
