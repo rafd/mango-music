@@ -1,0 +1,11 @@
+refactoring:
+ - we started converting track_arrays (which we received from the CSV) into hashes; now that Database supports saving hashes, clean up the remaining code
+ - create and use an Interface class or module (instead of just a run method) (+ add tests for the class)
+ - create and use a MongoMusic class that has a method for each command that our app supports (+ add tests for the class)
+ - use a Track class and instances for passing tracks around instead of hashes (+ add tests for the class)
+
+new features:
+ - add support for albums
+ - add the "stats <artist>" command, that lists all songs by an artist
+ - allow delete of tracks
+ - handle unexpected input
