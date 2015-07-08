@@ -11,6 +11,12 @@ class Database
   def find
   end
 
+  def add(arr)
+    CSV.open(@db_file,"ab") do |csv|
+      csv << arr
+    end
+  end
+
   def count
     CSV.read(@db_file).length
   end
@@ -33,9 +39,7 @@ def run(output, input_stream, db_file)
     case input.split(" ")[0]
     when "add"
       track_count = database.count
-      CSV.open(db_file,"ab") do |csv|
-        csv << [track_count, input.split(" ")[1], input.split(" ")[2], 0]
-      end
+      database.add([track_count, input.split(" ")[1], input.split(" ")[2], 0])
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
