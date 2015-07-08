@@ -12,5 +12,6 @@ Initially, you would run the app by:
 
 Once we started writing tests, you run tests by:
 > rspec
+
 and run the actual app using:
 > ruby run.rb
