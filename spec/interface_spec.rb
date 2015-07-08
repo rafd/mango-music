@@ -16,7 +16,7 @@ describe "interface" do
   describe "add and list" do
     it "adds a track and lists it" do
       output = double(:output).as_null_object
-      output.should_receive(:puts).with(/[0-9]+: aaa by bbb \(0 listens\)/)
+      output.should_receive(:puts).with(/[0-9]+: aaa by bbb \([0-9]+ listens\)/)
 
       input = StringIO.new("add aaa bbb\nlist\nexit\n")
 
