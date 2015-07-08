@@ -1,5 +1,21 @@
 require 'csv'
 
+class Database
+  def initialize(db_file)
+    @db_file = db_file
+  end
+
+  def all
+  end
+
+  def find
+  end
+
+  def count
+    CSV.read(@db_file).length
+  end
+end
+
 def run(output, input_stream, db_file)
   output.puts "Welcome to Mango Music"
   output.puts "You can:"
@@ -11,11 +27,12 @@ def run(output, input_stream, db_file)
   output.puts ""
   output.puts "What do now?"
   input = input_stream.gets.chomp
+  database = Database.new(db_file)
 
   while input != "exit"
     case input.split(" ")[0]
     when "add"
-      track_count = CSV.read(db_file).length
+      track_count = database.count
       CSV.open(db_file,"ab") do |csv|
         csv << [track_count, input.split(" ")[1], input.split(" ")[2], 0]
       end
