@@ -69,7 +69,7 @@ def run(output, input_stream, db_file)
       end
     when "search"
       tracks = []
-      CSV.read(db_file).each do |track|
+      database.all.each do |track|
         if /#{input.split(" ")[1]}/ =~ track[1]
           tracks << track
         elsif /#{input.split(" ")[1]}/ =~ track[2]
