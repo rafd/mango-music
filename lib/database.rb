@@ -5,6 +5,10 @@ class Database
     @db_file = db_file
   end
 
+  def drop
+    File.new(@db_file, "w")
+  end
+
   def all
     CSV.read(@db_file)
   end
