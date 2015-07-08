@@ -1,5 +1,9 @@
 require_relative 'database'
 
+def track_to_s(t)
+ "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+end
+
 def run(output, input_stream, db_file)
   output.puts "Welcome to Mango Music"
   output.puts "You can:"
@@ -34,7 +38,7 @@ def run(output, input_stream, db_file)
     when "list"
       tracks = database.all
       tracks.each do |t|
-        output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+        output.puts track_to_s(t)
       end
     when "search"
       tracks = []
@@ -46,7 +50,7 @@ def run(output, input_stream, db_file)
         end
       end
       tracks.each do |t|
-        output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+        output.puts track_to_s(t)
       end
     else
       output.puts "Huh?"
