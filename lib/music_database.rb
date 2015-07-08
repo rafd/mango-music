@@ -1,11 +1,12 @@
 require_relative 'database'
 
 def track_array_to_hash(track)
-  {id: track[0].to_i, title: track[1], artist: track[2]}
+  {id: track[0].to_i, title: track[1], artist: track[2], listen_count: track[3].to_i}
 end
 
 def track_to_s(t)
- "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+  t = track_array_to_hash(t)
+ "#{t[:id]}: #{t[:title]} by #{t[:artist]} (#{t[:listen_count]} listens)"
 end
 
 def run(output, input_stream, db_file)
