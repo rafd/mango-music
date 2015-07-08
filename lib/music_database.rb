@@ -31,8 +31,9 @@ def run(output, input_stream, db_file)
       end
       track = track[0]
       if track
-        output.puts "You're listening to... #{track[1]} by #{track[2]}"
-        tracks[track[0].to_i][3] = tracks[track[0].to_i][3].to_i + 1
+        track = {id: track[0].to_i, title: track[1], artist: track[2]}
+        output.puts "You're listening to... #{track[:title]} by #{track[:artist]}"
+        tracks[track[:id]][3] = tracks[track[:id]][3].to_i + 1
         database.overwrite_all(tracks)
       end
     when "list"
