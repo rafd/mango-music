@@ -63,7 +63,7 @@ def run(output, input_stream, db_file)
         database.overwrite_all(tracks)
       end
     when "list"
-      tracks = CSV.read(db_file)
+      tracks = database.all
       tracks.each do |t|
         output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
       end
