@@ -120,7 +120,7 @@ def run(output, input_stream, db_file)
         output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
     when "search"
-      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
+      tracks = mango.all
       query = input.split(" ")[1]
 
       tracks.select do |track|
