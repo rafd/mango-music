@@ -5,10 +5,6 @@ class Database
     @db_file = db_file
   end
 
-  def count
-    CSV.read(@db_file).length
-  end
-
   def add(data)
     CSV.open(@db_file,"ab") do |csv|
       data[0] = $. # $. is current line number
