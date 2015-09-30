@@ -84,6 +84,12 @@ class Mango
     end
   end
 
+  def search(query)
+    self.all.select do |track|
+      /#{query}/ =~ track.name or /#{query}/ =~ track.artist
+    end
+  end
+
 end
 
 def run(output, input_stream, db_file)
@@ -122,10 +128,7 @@ def run(output, input_stream, db_file)
     when "search"
       tracks = mango.all
       query = input.split(" ")[1]
-
-      tracks.select do |track|
-        /#{query}/ =~ track.name or /#{query}/ =~ track.artist
-      end
+      tracks = mango.search(query)
       tracks.each do |t|
         output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
