@@ -50,6 +50,10 @@ class Track
   def listen
     @plays+=1
   end
+
+  def to_s
+    "#{id}: #{name} by #{artist} (#{plays} listens)"
+  end
 end
 
 class Mango
@@ -123,14 +127,14 @@ def run(output, input_stream, db_file)
     when "list"
       tracks = mango.all
       tracks.each do |t|
-        output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
+        output.puts t.to_s
       end
     when "search"
       tracks = mango.all
       query = input.split(" ")[1]
       tracks = mango.search(query)
       tracks.each do |t|
-        output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
+        output.puts t.to_s
       end
     else
       output.puts "Huh?"
