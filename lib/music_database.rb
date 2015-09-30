@@ -91,9 +91,9 @@ def run(output, input_stream, db_file)
         db.update(track_to_array(track))
       end
     when "list"
-      tracks = db.all
+      tracks = db.all.map {|arr| array_to_track(arr) }
       tracks.each do |t|
-        output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+        output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
     when "search"
       tracks = []
