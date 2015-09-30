@@ -70,6 +70,20 @@ class Mango
     @db.add(Mango.track_to_array(track))
   end
 
+  def all
+    @db.all.map {|arr| Mango.array_to_track(arr) }
+  end
+
+  def update(track)
+    @db.update(Mango.track_to_array(track))
+  end
+
+  def find_by_title(title)
+    self.all.find do |t|
+      t.name == title
+    end
+  end
+
 end
 
 def run(output, input_stream, db_file)
@@ -94,14 +108,11 @@ def run(output, input_stream, db_file)
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
-      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
-      track = tracks.find do |t|
-         t.name == title
-      end
+      track = mango.find_by_title(title)
       if track
         output.puts "You're listening to... #{track.name} by #{track.artist}"
         track.listen
-        db.update(Mango.track_to_array(track))
+        mango.update(track)
       end
     when "list"
       tracks = db.all.map {|arr| Mango.array_to_track(arr) }
