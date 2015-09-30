@@ -25,7 +25,7 @@ def run(output, input_stream, db_file)
       track = mango.find_by_title(title)
       if track
         output.puts "You're listening to... #{track.name} by #{track.artist}"
-        track.listen
+        track.listen!
         mango.update(track)
       end
     when "list"

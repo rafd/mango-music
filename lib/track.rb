@@ -8,7 +8,7 @@ class Track
     @plays = plays.to_i
   end
 
-  def listen
+  def listen!
     @plays+=1
   end
 
