@@ -1,5 +1,16 @@
 require 'csv'
 
+class Track
+  attr_reader :id, :name, :artist, :plays
+
+  def initialize(name, artist, plays=0, id=nil)
+    @id = id
+    @name = name
+    @artist = artist
+    @plays = plays
+  end
+end
+
 class Database
   def initialize(db_file)
     @db_file = db_file
@@ -11,6 +22,7 @@ class Database
 
   def add(data)
     CSV.open(@db_file,"ab") do |csv|
+      data[0] = $. # $. is current line number
       csv << data
     end
   end
@@ -26,6 +38,10 @@ class Database
       end
     end
   end
+end
+
+def track_to_array(track)
+  [track.id, track.name, track.artist, track.plays]
 end
 
 def run(output, input_stream, db_file)
@@ -44,8 +60,8 @@ def run(output, input_stream, db_file)
   while input != "exit"
     case input.split(" ")[0]
     when "add"
-      track_count = db.count
-      db.add([track_count, input.split(" ")[1], input.split(" ")[2], 0])
+      _, name, artist = input.split(" ")
+      db.add(track_to_array(Track.new(name, artist)))
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
