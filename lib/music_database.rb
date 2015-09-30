@@ -52,7 +52,11 @@ class Track
   end
 end
 
-class Helper
+class Mango
+
+  def initialize(db)
+    @db = db
+  end
 
   def self.track_to_array(track)
     [track.id, track.name, track.artist, track.plays]
@@ -60,6 +64,10 @@ class Helper
 
   def self.array_to_track(arr)
     Track.new(arr[1],arr[2],arr[3],arr[0])
+  end
+
+  def add(track)
+    @db.add(Mango.track_to_array(track))
   end
 
 end
@@ -76,31 +84,32 @@ def run(output, input_stream, db_file)
   output.puts "What do now?"
   input = input_stream.gets.chomp
   db = Database.new(db_file)
+  mango = Mango.new(db)
 
   while input != "exit"
     case input.split(" ")[0]
     when "add"
       _, name, artist = input.split(" ")
-      db.add(Helper.track_to_array(Track.new(name, artist)))
+      mango.add(Track.new(name,artist))
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
-      tracks = db.all.map {|arr| Helper.array_to_track(arr) }
+      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
       track = tracks.find do |t|
          t.name == title
       end
       if track
         output.puts "You're listening to... #{track.name} by #{track.artist}"
         track.listen
-        db.update(Helper.track_to_array(track))
+        db.update(Mango.track_to_array(track))
       end
     when "list"
-      tracks = db.all.map {|arr| Helper.array_to_track(arr) }
+      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
       tracks.each do |t|
         output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
     when "search"
-      tracks = db.all.map {|arr| Helper.array_to_track(arr) }
+      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
       query = input.split(" ")[1]
 
       tracks.select do |track|
