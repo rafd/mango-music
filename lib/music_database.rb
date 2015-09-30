@@ -106,18 +106,19 @@ def run(output, input_stream, db_file)
   output.puts "quit"
   output.puts ""
   output.puts "What do now?"
-  input = input_stream.gets.chomp
   db = Database.new(db_file)
   mango = Mango.new(db)
 
-  while input != "exit"
-    case input.split(" ")[0]
+  commands = input_stream.gets.chomp.split(" ")
+
+  while commands[0] != "exit"
+    case commands[0]
     when "add"
-      _, name, artist = input.split(" ")
+      _, name, artist = commands
       mango.add(Track.new(name,artist))
       output.puts "saved!"
     when "listen"
-      title = input.split(" ")[1]
+      title = commands[1]
       track = mango.find_by_title(title)
       if track
         output.puts "You're listening to... #{track.name} by #{track.artist}"
@@ -131,7 +132,7 @@ def run(output, input_stream, db_file)
       end
     when "search"
       tracks = mango.all
-      query = input.split(" ")[1]
+      query = commands[1]
       tracks = mango.search(query)
       tracks.each do |t|
         output.puts t.to_s
@@ -142,7 +143,7 @@ def run(output, input_stream, db_file)
 
     output.puts ""
     output.puts "What do now?"
-    input = input_stream.gets.chomp
+    commands = input_stream.gets.chomp.split(" ")
   end
 
   output.puts ""
