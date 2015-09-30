@@ -115,7 +115,7 @@ def run(output, input_stream, db_file)
         mango.update(track)
       end
     when "list"
-      tracks = db.all.map {|arr| Mango.array_to_track(arr) }
+      tracks = mango.all
       tracks.each do |t|
         output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
