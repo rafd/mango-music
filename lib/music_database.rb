@@ -96,16 +96,14 @@ def run(output, input_stream, db_file)
         output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
     when "search"
-      tracks = []
-      db.all.each do |track|
-        if /#{input.split(" ")[1]}/ =~ track[1]
-          tracks << track
-        elsif /#{input.split(" ")[1]}/ =~ track[2]
-          tracks << track
-        end
+      tracks = db.all.map {|arr| array_to_track(arr) }
+      query = input.split(" ")[1]
+
+      tracks.select do |track|
+        /#{query}/ =~ track.name or /#{query}/ =~ track.artist
       end
       tracks.each do |t|
-        output.puts "#{t[0]}: #{t[1]} by #{t[2]} (#{t[3]} listens)"
+        output.puts "#{t.id}: #{t.name} by #{t.artist} (#{t.plays} listens)"
       end
     else
       output.puts "Huh?"
