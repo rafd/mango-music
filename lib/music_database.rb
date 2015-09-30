@@ -1,4 +1,3 @@
-require_relative 'database'
 require_relative 'track'
 require_relative 'mango'
 
@@ -12,8 +11,7 @@ def run(output, input_stream, db_file)
   output.puts "quit"
   output.puts ""
   output.puts "What do now?"
-  db = Database.new(db_file)
-  mango = Mango.new(db)
+  mango = Mango.new(db_file)
 
   commands = input_stream.gets.chomp.split(" ")
 

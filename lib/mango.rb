@@ -1,9 +1,10 @@
+require_relative 'database'
 require_relative 'track'
 
 class Mango
 
-  def initialize(db)
-    @db = db
+  def initialize(db_file)
+    @db = Database.new(db_file)
   end
 
   def self.track_to_array(track)
