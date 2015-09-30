@@ -1,16 +1,5 @@
 require 'csv'
 
-class Track
-  attr_reader :id, :name, :artist, :plays
-
-  def initialize(name, artist, plays=0, id=nil)
-    @id = id
-    @name = name
-    @artist = artist
-    @plays = plays
-  end
-end
-
 class Database
   def initialize(db_file)
     @db_file = db_file
@@ -38,10 +27,37 @@ class Database
       end
     end
   end
+
+  def update(arr)
+    # TODO: can make more efficient
+    id = arr[0]
+    records = self.all
+    records[id] = arr
+    self.replace(records)
+  end
+end
+
+class Track
+  attr_reader :id, :name, :artist, :plays
+
+  def initialize(name, artist, plays=0, id=nil)
+    @id = id.to_i
+    @name = name
+    @artist = artist
+    @plays = plays.to_i
+  end
+
+  def listen
+    @plays+=1
+  end
 end
 
 def track_to_array(track)
   [track.id, track.name, track.artist, track.plays]
+end
+
+def array_to_track(arr)
+  Track.new(arr[1],arr[2],arr[3],arr[0])
 end
 
 def run(output, input_stream, db_file)
@@ -65,15 +81,14 @@ def run(output, input_stream, db_file)
       output.puts "saved!"
     when "listen"
       title = input.split(" ")[1]
-      tracks = db.all
-      track = tracks.select do |t|
-         t[1] == title
+      tracks = db.all.map {|arr| array_to_track(arr) }
+      track = tracks.find do |t|
+         t.name == title
       end
-      track = track[0]
       if track
-        output.puts "You're listening to... #{track[1]} by #{track[2]}"
-        tracks[track[0].to_i][3] = tracks[track[0].to_i][3].to_i + 1
-        db.replace(tracks)
+        output.puts "You're listening to... #{track.name} by #{track.artist}"
+        track.listen
+        db.update(track_to_array(track))
       end
     when "list"
       tracks = db.all
