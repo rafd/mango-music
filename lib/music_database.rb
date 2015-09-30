@@ -131,7 +131,6 @@ def run(output, input_stream, db_file)
         output.puts t.to_s
       end
     when "search"
-      tracks = mango.all
       query = commands[1]
       tracks = mango.search(query)
       tracks.each do |t|
