@@ -8,13 +8,15 @@ def run(output, input_stream, db_file)
   output.puts "list"
   output.puts "search <search term>"
   output.puts "quit"
-  output.puts ""
-  output.puts "What do now?"
   mango = Mango.new(db_file)
 
-  commands = input_stream.gets.chomp.split(" ")
+  commands = []
 
   while commands[0] != "exit"
+    output.puts ""
+    output.puts "What do now?"
+    commands = input_stream.gets.chomp.split(" ")
+
     case commands[0]
     when "add"
       _, name, artist = commands
@@ -43,9 +45,6 @@ def run(output, input_stream, db_file)
       output.puts "Huh?"
     end
 
-    output.puts ""
-    output.puts "What do now?"
-    commands = input_stream.gets.chomp.split(" ")
   end
 
   output.puts ""
