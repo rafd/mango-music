@@ -15,8 +15,8 @@ class Mango
     Track.new(arr[1],arr[2],arr[3],arr[0])
   end
 
-  def add(track)
-    @db.add(Mango.track_to_array(track))
+  def add(name,artist)
+    @db.add(Mango.track_to_array(Track.new(name,artist)))
   end
 
   def all

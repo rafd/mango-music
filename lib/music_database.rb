@@ -1,4 +1,3 @@
-require_relative 'track'
 require_relative 'mango'
 
 def run(output, input_stream, db_file)
@@ -19,7 +18,7 @@ def run(output, input_stream, db_file)
     case commands[0]
     when "add"
       _, name, artist = commands
-      mango.add(Track.new(name,artist))
+      mango.add(name,artist)
       output.puts "saved!"
     when "listen"
       title = commands[1]
